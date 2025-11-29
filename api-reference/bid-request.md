@@ -1,10 +1,12 @@
-# Bid Request
+# Bid request endpoint
 
 <Endpoint method="post" url="/api/v1/ssp/bid-request" />
 
 Orchestrates a multi-bidder auction across multiple DSPs and returns the winning ad creative in a single request.
 
-## Request
+## Request body
+
+This is the JSON payload you send to the Bid Request endpoint:
 
 <RequestExample>
 
@@ -30,6 +32,17 @@ Orchestrates a multi-bidder auction across multiple DSPs and returns the winning
 ```
 
 </RequestExample>
+
+**Request JSON fields**
+
+- **`userId`**: Anonymous user identifier (UUID-style string, no PII).
+- **`chatId`**: Conversation identifier that groups messages for a single chat session.
+- **`messages`**: Ordered list of prior chat messages (alternating user/assistant).
+- **`messages[].role`**: The role for each message (`"user"` or `"assistant"`).
+- **`messages[].content`**: Text content of the message.
+- **`messages[].timestamp`**: Optional ISO 8601 or Unix timestamp for the message.
+- **`production`**: Boolean flag indicating whether this is a production request.
+- **`turn_number`**: Integer turn counter for the conversation (0-based or 1-based, but consistent).
 
 ### Headers
 
@@ -110,6 +123,26 @@ This endpoint does not use path parameters.
 ```
 
 </ResponseExample>
+
+**Response JSON fields**
+
+- **`requestId`**: Unique ID for this request, used in logs and support.
+- **`timestamp`**: ISO 8601 timestamp when the response was generated.
+- **`totalTime`**: Total processing time for the auction, in seconds.
+- **`status`**: High-level status (`"success"` or `"error"`).
+- **`message`**: Human-readable message summarizing the result.
+- **`data`**: Wrapper object that holds the bid payload.
+- **`data.bid`**: Winning bid object, or `null` when there is no winning bid.
+- **`data.bid.price`**: Clearing CPM price (what the publisher earns).
+- **`data.bid.advertiser`**: Advertiser or brand name.
+- **`data.bid.headline`**: Ad headline.
+- **`data.bid.description`**: Ad body text / description.
+- **`data.bid.cta_text`**: Call-to-action label (e.g. “Shop Now”).
+- **`data.bid.url`**: Click tracking URL that redirects to the advertiser’s landing page.
+- **`data.bid.image_url`**: Optional image asset for the ad.
+- **`data.bid.dsp`**: Identifier for the winning DSP.
+- **`data.bid.bidId`**: Unique bid identifier for analytics and debugging.
+- **`error`**: `null` on success; populated with error details when `status = "error"`.
 
 ### No Bid Response (200 OK)
 
@@ -279,7 +312,56 @@ The endpoint supports Cross-Origin Resource Sharing (CORS) for browser requests:
 
 Contact us at contact@thrads.ai to register your domains for CORS support.
 
-## Example: JavaScript Integration
+## Example integrations
+
+### Python (server-side) example
+
+```python
+import uuid
+import requests
+
+BASE_URL = "https://ssp.thrads.ai/api/v1/ssp/bid-request"
+API_KEY = "your-api-key"
+
+
+def get_user_id():
+    # Use your own anonymous, non-PII user identifier
+    return f"user_{uuid.uuid4()}"
+
+
+def get_chat_id():
+    # One chat_id per conversation
+    return f"chat_{uuid.uuid4()}"
+
+
+def make_bid_request(conversation_messages, production=True, turn_number=0):
+    payload = {
+        "userId": get_user_id(),
+        "chatId": get_chat_id(),
+        "messages": conversation_messages,
+        "production": production,
+        "turn_number": turn_number,
+    }
+
+    headers = {
+        "thrad-api-key": API_KEY,
+        "Content-Type": "application/json",
+    }
+
+    response = requests.post(BASE_URL, json=payload, headers=headers, timeout=5)
+    response.raise_for_status()
+    data = response.json()
+
+    bid = data.get("data", {}).get("bid")
+    if bid:
+        print("Got bid:", bid)
+    else:
+        print("No bid available")
+
+    return data
+```
+
+### JavaScript (browser) example
 
 ```javascript
 /**
@@ -341,4 +423,3 @@ if (data.data.bid) {
   console.log('No ad available');
 }
 ```
-

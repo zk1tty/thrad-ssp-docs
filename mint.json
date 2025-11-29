@@ -24,18 +24,7 @@
     "name": "Dashboard",
     "url": "https://platform.thrads.ai"
   },
-  "anchors": [
-    {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://preview-docs.thrads.ai"
-    },
-    {
-      "name": "Community",
-      "icon": "slack",
-      "url": "https://thrads.ai/community"
-    }
-  ],
+  "anchors": [],
   "navigation": [
     {
       "group": "Get Started",
