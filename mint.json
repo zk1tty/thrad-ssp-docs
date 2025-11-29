@@ -1,60 +1,59 @@
 {
-    "name": "Thrads API Documentation",
-    "logo": {
-      "dark": "/logo/dark.svg",
-      "light": "/logo/light.svg"
-    },
-    "favicon": "/favicon.svg",
-    "colors": {
-      "primary": "#0D9373",
-      "light": "#07C983",
-      "dark": "#0D9373",
-      "anchors": {
-        "from": "#0D9373",
-        "to": "#07C983"
-      }
-    },
-    "topbarLinks": [
-      {
-        "name": "Platform",
-        "url": "https://platform.thrads.ai"
-      }
-    ],
-    "topbarCtaButton": {
-      "name": "Dashboard",
-      "url": "https://platform.thrads.ai"
-    },
-    "anchors": [
-      {
-        "name": "Documentation",
-        "icon": "book-open-cover",
-        "url": "https://preview-docs.thrads.ai"
-      },
-      {
-        "name": "Community",
-        "icon": "slack",
-        "url": "https://thrads.ai/community"
-      }
-    ],
-    "navigation": [
-      {
-        "group": "Get Started",
-        "pages": [
-          "api-reference/introduction"
-        ]
-      },
-      {
-        "group": "API Reference",
-        "pages": [
-          "api-reference/bid-request"
-        ]
-      }
-    ],
-    "footerSocials": {
-      "x": "https://x.com/Thrad_ai",
-      "github": "https://github.com/Thrads",
-      "linkedin": "https://www.linkedin.com/company/thrads"
+  "name": "Thrads API Documentation",
+  "logo": {
+    "dark": "/logo/dark.svg",
+    "light": "/logo/light.svg"
+  },
+  "favicon": "/favicon.svg",
+  "colors": {
+    "primary": "#FF6B35",
+    "light": "#FF8C5A",
+    "dark": "#E55A2B",
+    "anchors": {
+      "from": "#FF6B35",
+      "to": "#FF8C5A"
     }
+  },
+  "topbarLinks": [
+    {
+      "name": "Platform",
+      "url": "https://platform.thrads.ai"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "Dashboard",
+    "url": "https://platform.thrads.ai"
+  },
+  "anchors": [
+    {
+      "name": "Documentation",
+      "icon": "book-open-cover",
+      "url": "https://preview-docs.thrads.ai"
+    },
+    {
+      "name": "Community",
+      "icon": "slack",
+      "url": "https://thrads.ai/community"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Get Started",
+      "pages": [
+        "api-reference/introduction"
+      ]
+    },
+    {
+      "group": "API Reference",
+      "pages": [
+        "api-reference/bid-request"
+      ]
+    }
+  ],
+  "footerSocials": {
+    "x": "https://x.com/Thrad_ai",
+    "github": "https://github.com/Thrads",
+    "linkedin": "https://www.linkedin.com/company/thrads"
   }
-  
+}
   
