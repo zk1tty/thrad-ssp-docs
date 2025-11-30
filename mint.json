@@ -14,14 +14,9 @@
       "to": "#FF8C5A"
     }
   },
-  "topbarLinks": [
-    {
-      "name": "Platform",
-      "url": "https://platform.thrads.ai"
-    }
-  ],
+  "topbarLinks": [],
   "topbarCtaButton": {
-    "name": "Dashboard",
+    "name": "Platform",
     "url": "https://platform.thrads.ai"
   },
   "anchors": [],
@@ -29,7 +24,13 @@
     {
       "group": "Get Started",
       "pages": [
-        "api-reference/introduction"
+        "introduction"
+      ]
+    },
+    {
+      "group": "Guides",
+      "pages": [
+        "guides/bid_request"
       ]
     },
     {

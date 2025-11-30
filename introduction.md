@@ -2,11 +2,11 @@
 
 > Getting started with the Thrads SSP API
 
+<img src="/images/gpt_generated_img.png" alt="Thrads SSP Platform Overview" />
+
 <Card title="Visit the Thrads Platform" icon="user" href="https://platform.thrads.ai">
   View the OpenAPI specification file
 </Card>
-
-## Overview
 
 The Thrads Supply-Side Platform (SSP) API enables publishers to run real-time first-price auctions across multiple DSPs (Demand-Side Platforms) and receive winning ad creatives in a single request.
 

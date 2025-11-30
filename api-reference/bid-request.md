@@ -1,16 +1,62 @@
-# Bid request endpoint
+---
+title: "Bid Request"
+api: "POST /api/v1/ssp/bid-request"
+description: "Orchestrates a multi-bidder auction across multiple DSPs and returns the winning ad creative in a single request"
+---
 
-<Endpoint method="post" url="/api/v1/ssp/bid-request" />
+## Authorizations
 
-Orchestrates a multi-bidder auction across multiple DSPs and returns the winning ad creative in a single request.
+<ParamField header="thrad-api-key" type="string" required>
+  Your API key for authentication
+</ParamField>
 
-## Request body
+<ParamField header="Content-Type" type="string" required>
+  Must be `application/json`
+</ParamField>
 
-This is the JSON payload you send to the Bid Request endpoint:
+<ParamField header="Origin" type="string">
+  Your domain (required for browser-based requests). Server-to-server requests don't require origin validation.
+</ParamField>
+
+## Body
+
+<ParamField body="userId" type="string" required>
+  Unique user identifier. Use anonymous UUIDs (e.g., `user_a1b2c3d4-...`) stored in localStorage for logged-out users. Do not use email or name.
+</ParamField>
+
+<ParamField body="chatId" type="string" required>
+  Conversation identifier. One unique ID per conversation, not per user. Reset when user starts a new chat. Store in sessionStorage.
+</ParamField>
+
+<ParamField body="messages" type="array" required>
+  Conversation history. Must contain at least 2 messages (user and assistant). Messages must alternate between user and assistant roles, ending with a user message followed by an assistant message.
+  
+  <Expandable title="messages properties">
+    <ParamField body="role" type="string" required>
+      Message role. Must be either `"user"` or `"assistant"`.
+    </ParamField>
+    
+    <ParamField body="content" type="string" required>
+      Message text content.
+    </ParamField>
+    
+    <ParamField body="timestamp" type="string">
+      Optional ISO 8601 or Unix timestamp. Including timestamps enables time-in-chat analytics for better targeting.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="production" type="boolean" default="true">
+  Whether the request is for production. Defaults to `true`.
+</ParamField>
+
+<ParamField body="turn_number" type="integer">
+  Turn number in the conversation (for analytics). Must be >= 0.
+</ParamField>
 
 <RequestExample>
 
-```json
+```json Example Request
 {
   "userId": "user_123",
   "chatId": "chat_456",
@@ -33,72 +79,9 @@ This is the JSON payload you send to the Bid Request endpoint:
 
 </RequestExample>
 
-**Request JSON fields**
-
-- **`userId`**: Anonymous user identifier (UUID-style string, no PII).
-- **`chatId`**: Conversation identifier that groups messages for a single chat session.
-- **`messages`**: Ordered list of prior chat messages (alternating user/assistant).
-- **`messages[].role`**: The role for each message (`"user"` or `"assistant"`).
-- **`messages[].content`**: Text content of the message.
-- **`messages[].timestamp`**: Optional ISO 8601 or Unix timestamp for the message.
-- **`production`**: Boolean flag indicating whether this is a production request.
-- **`turn_number`**: Integer turn counter for the conversation (0-based or 1-based, but consistent).
-
-### Headers
-
-| Header | Type | Required | Description |
-|--------|------|----------|-------------|
-| `thrad-api-key` | string | Yes | Your API key for authentication |
-| `Content-Type` | string | Yes | Must be `application/json` |
-| `Origin` | string | Yes* | Your domain (required for browser requests) |
-
-*Required for browser-based requests. Server-to-server requests don't require origin validation.
-
-### Path Parameters
-
-This endpoint does not use path parameters.
-
-### Request Body
-
-<SchemaField path="userId" type="string" required>
-  Unique user identifier. Use anonymous UUIDs (e.g., `user_a1b2c3d4-...`) stored in localStorage for logged-out users. Do not use email or name.
-</SchemaField>
-
-<SchemaField path="chatId" type="string" required>
-  Conversation identifier. One unique ID per conversation, not per user. Reset when user starts a new chat. Store in sessionStorage.
-</SchemaField>
-
-<SchemaField path="messages" type="array" required>
-  Conversation history. Must contain at least 2 messages (user and assistant). Messages must alternate between user and assistant roles, ending with a user message followed by an assistant message.
-</SchemaField>
-
-<SchemaField path="messages[].role" type="string" required>
-  Message role. Must be either `"user"` or `"assistant"`.
-</SchemaField>
-
-<SchemaField path="messages[].content" type="string" required>
-  Message text content.
-</SchemaField>
-
-<SchemaField path="messages[].timestamp" type="string">
-  Optional ISO 8601 or Unix timestamp. Including timestamps enables time-in-chat analytics for better targeting.
-</SchemaField>
-
-<SchemaField path="production" type="boolean">
-  Whether the request is for production. Defaults to `true`.
-</SchemaField>
-
-<SchemaField path="turn_number" type="integer">
-  Turn number in the conversation (for analytics). Must be >= 0.
-</SchemaField>
-
-## Response
-
-### Success Response (200 OK)
-
 <ResponseExample>
 
-```json
+```json 200 - Success
 {
   "requestId": "api_req_123",
   "timestamp": "2025-11-24T21:51:52.240297Z",
@@ -122,33 +105,7 @@ This endpoint does not use path parameters.
 }
 ```
 
-</ResponseExample>
-
-**Response JSON fields**
-
-- **`requestId`**: Unique ID for this request, used in logs and support.
-- **`timestamp`**: ISO 8601 timestamp when the response was generated.
-- **`totalTime`**: Total processing time for the auction, in seconds.
-- **`status`**: High-level status (`"success"` or `"error"`).
-- **`message`**: Human-readable message summarizing the result.
-- **`data`**: Wrapper object that holds the bid payload.
-- **`data.bid`**: Winning bid object, or `null` when there is no winning bid.
-- **`data.bid.price`**: Clearing CPM price (what the publisher earns).
-- **`data.bid.advertiser`**: Advertiser or brand name.
-- **`data.bid.headline`**: Ad headline.
-- **`data.bid.description`**: Ad body text / description.
-- **`data.bid.cta_text`**: Call-to-action label (e.g. “Shop Now”).
-- **`data.bid.url`**: Click tracking URL that redirects to the advertiser’s landing page.
-- **`data.bid.image_url`**: Optional image asset for the ad.
-- **`data.bid.dsp`**: Identifier for the winning DSP.
-- **`data.bid.bidId`**: Unique bid identifier for analytics and debugging.
-- **`error`**: `null` on success; populated with error details when `status = "error"`.
-
-### No Bid Response (200 OK)
-
-<ResponseExample>
-
-```json
+```json 200 - No Bid
 {
   "requestId": "api_req_124",
   "timestamp": "2025-11-24T21:51:52.240297Z",
@@ -162,17 +119,7 @@ This endpoint does not use path parameters.
 }
 ```
 
-</ResponseExample>
-
-<Note>
-  A `200 OK` response with `"bid": null` is **not an error** - it means the auction ran successfully but no DSP submitted a winning bid. This is normal behavior.
-</Note>
-
-### Error Response (500 Internal Server Error)
-
-<ResponseExample>
-
-```json
+```json 500 - Error
 {
   "requestId": "api_req_125",
   "timestamp": "2025-11-24T21:51:52.240297Z",
@@ -191,7 +138,11 @@ This endpoint does not use path parameters.
 
 </ResponseExample>
 
-### Response Fields
+<Note>
+  A `200 OK` response with `"bid": null` is **not an error** - it means the auction ran successfully but no DSP submitted a winning bid. This is normal behavior.
+</Note>
+
+## Response
 
 <ResponseField name="requestId" type="string">
   Unique request identifier used in logs and tracing.
@@ -215,46 +166,50 @@ This endpoint does not use path parameters.
 
 <ResponseField name="data" type="object">
   Response data payload.
-</ResponseField>
-
-<ResponseField name="data.bid" type="object|null">
-  Winning bid object (null if no bids). Contains ad creative information when available.
-</ResponseField>
-
-<ResponseField name="data.bid.price" type="float">
-  Clearing price (CPM) in dollars - what the publisher earns.
-</ResponseField>
-
-<ResponseField name="data.bid.advertiser" type="string">
-  Advertiser/brand name (optional).
-</ResponseField>
-
-<ResponseField name="data.bid.headline" type="string">
-  Ad headline text (optional).
-</ResponseField>
-
-<ResponseField name="data.bid.description" type="string">
-  Ad body text/description.
-</ResponseField>
-
-<ResponseField name="data.bid.cta_text" type="string">
-  Call-to-action text, e.g., "Shop Now", "Learn More" (optional).
-</ResponseField>
-
-<ResponseField name="data.bid.url" type="string">
-  Click tracking URL. Use this URL for ad clicks - it tracks the click and redirects to the advertiser's landing page.
-</ResponseField>
-
-<ResponseField name="data.bid.image_url" type="string">
-  Ad image URL (optional).
-</ResponseField>
-
-<ResponseField name="data.bid.dsp" type="string">
-  Winning DSP identifier (e.g., "thrad_dsp").
-</ResponseField>
-
-<ResponseField name="data.bid.bidId" type="string">
-  Bid identifier for tracking/debugging.
+  
+  <Expandable title="data properties">
+    <ResponseField name="bid" type="object|null">
+      Winning bid object (null if no bids). Contains ad creative information when available.
+      
+      <Expandable title="bid properties">
+        <ResponseField name="price" type="float">
+          Clearing price (CPM) in dollars - what the publisher earns.
+        </ResponseField>
+        
+        <ResponseField name="advertiser" type="string">
+          Advertiser/brand name (optional).
+        </ResponseField>
+        
+        <ResponseField name="headline" type="string">
+          Ad headline text (optional).
+        </ResponseField>
+        
+        <ResponseField name="description" type="string">
+          Ad body text/description.
+        </ResponseField>
+        
+        <ResponseField name="cta_text" type="string">
+          Call-to-action text, e.g., "Shop Now", "Learn More" (optional).
+        </ResponseField>
+        
+        <ResponseField name="url" type="string">
+          Click tracking URL. Use this URL for ad clicks - it tracks the click and redirects to the advertiser's landing page.
+        </ResponseField>
+        
+        <ResponseField name="image_url" type="string">
+          Ad image URL (optional).
+        </ResponseField>
+        
+        <ResponseField name="dsp" type="string">
+          Winning DSP identifier (e.g., "thrad_dsp").
+        </ResponseField>
+        
+        <ResponseField name="bidId" type="string">
+          Bid identifier for tracking/debugging.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
 </ResponseField>
 
 <ResponseField name="error" type="object|null">
@@ -312,9 +267,9 @@ The endpoint supports Cross-Origin Resource Sharing (CORS) for browser requests:
 
 Contact us at contact@thrads.ai to register your domains for CORS support.
 
-## Example integrations
+## Example Integrations
 
-### Python (server-side) example
+### Python (Server-Side)
 
 ```python
 import uuid
@@ -361,7 +316,7 @@ def make_bid_request(conversation_messages, production=True, turn_number=0):
     return data
 ```
 
-### JavaScript (browser) example
+### JavaScript (Browser)
 
 ```javascript
 /**
