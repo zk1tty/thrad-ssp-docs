@@ -297,13 +297,14 @@ def get_chat_id():
     return f"chat_{uuid.uuid4()}"
 
 
-def make_bid_request(conversation_messages, production=True, turn_number=0):
+def make_bid_request(conversation_messages, production=True, turn_number=0, ad_type=""):
     payload = {
         "userId": get_user_id(),
         "chatId": get_chat_id(),
         "messages": conversation_messages,
         "production": production,
         "turn_number": turn_number,
+        "adtype": ad_type,
     }
 
     headers = {
@@ -372,7 +373,8 @@ const response = await fetch('https://ssp.thrads.ai/api/v1/ssp/bid-request', {
     chatId: getChatId(),
     messages: conversationMessages,
     production: true,
-    turn_number: currentTurn
+    turn_number: currentTurn,
+    adtype: "" // or "opener" for pre-conversation ads
   })
 });
 

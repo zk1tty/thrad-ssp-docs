@@ -86,7 +86,7 @@ function getChatId() {
 }
 
 // Make bid request
-async function fetchAd(conversationMessages, turnNumber) {
+async function fetchAd(conversationMessages, turnNumber, adType = "") {
   const response = await fetch('https://ssp.thrads.ai/api/v1/ssp/bid-request', {
     method: 'POST',
     headers: {
@@ -98,7 +98,8 @@ async function fetchAd(conversationMessages, turnNumber) {
       chatId: getChatId(),
       messages: conversationMessages,
       production: true,
-      turn_number: turnNumber
+      turn_number: turnNumber,
+      adtype: adType
     })
   });
 
@@ -138,13 +139,14 @@ def get_chat_id():
     return f"chat_{uuid.uuid4()}"
 
 
-def make_bid_request(conversation_messages, production=True, turn_number=0):
+def make_bid_request(conversation_messages, production=True, turn_number=0, ad_type=""):
     payload = {
         "userId": get_user_id(),
         "chatId": get_chat_id(),
         "messages": conversation_messages,
         "production": production,
         "turn_number": turn_number,
+        "adtype": ad_type,
     }
 
     headers = {
