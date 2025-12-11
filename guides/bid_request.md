@@ -200,13 +200,39 @@ The API expects conversation messages in a specific format:
     }
   ],
   "production": true,
-  "turn_number": 4
+  "turn_number": 4,
+  "adtype": ""
 }
 ```
 
 <Note>
   **Important:** Messages must alternate between `user` and `assistant` roles. Include at least 2 messages (one user, one assistant). The last pair should be a user message followed by an assistant response.
 </Note>
+
+## Ad Type Parameter
+
+The optional `adtype` parameter controls when and how ads are displayed:
+
+- **Empty or omitted** (default): Ad is treated as a **native in-chat ad** that appears naturally within the conversation flow after user interactions
+- **`"opener"`**: Ad is a **non-prompted ad** that displays before the conversation starts (pre-conversation placement)
+
+```json
+// Native in-chat ad (default behavior)
+{
+  "userId": "user_123",
+  "chatId": "chat_456",
+  "messages": [...],
+  "adtype": ""
+}
+
+// Pre-conversation opener ad
+{
+  "userId": "user_123",
+  "chatId": "chat_456",
+  "messages": [...],
+  "adtype": "opener"
+}
+```
 
 ## Response Handling
 

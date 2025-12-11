@@ -54,6 +54,13 @@ description: "Orchestrates a multi-bidder auction across multiple DSPs and retur
   Turn number in the conversation (for analytics). Must be >= 0.
 </ParamField>
 
+<ParamField body="adtype" type="string">
+  Ad type identifier. Optional field that specifies when and how the ad should be displayed. 
+  
+  - If **empty or not provided**: Treated as a **native in-chat ad** (ad appears naturally within the conversation flow after user interaction)
+  - If set to **`"opener"`**: Indicates a **non-prompted ad** that displays before the conversation starts (pre-conversation ad placement)
+</ParamField>
+
 <RequestExample>
 
 ```json Example Request
@@ -73,7 +80,8 @@ description: "Orchestrates a multi-bidder auction across multiple DSPs and retur
     }
   ],
   "production": true,
-  "turn_number": 4
+  "turn_number": 4,
+  "adtype": ""
 }
 ```
 
