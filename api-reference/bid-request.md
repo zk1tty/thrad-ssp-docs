@@ -50,6 +50,14 @@ description: "Orchestrates a multi-bidder auction across multiple DSPs and retur
   Whether the request is for production. Defaults to `true`.
 </ParamField>
 
+<ParamField body="nAdsBefore" type="integer">
+  Number of ads already shown in this conversation. Used for frequency capping and pacing.
+</ParamField>
+
+<ParamField body="request_id" type="string">
+  Client-generated unique request identifier for tracking and debugging (e.g., `"req_abc123"`).
+</ParamField>
+
 <ParamField body="turn_number" type="integer">
   Turn number in the conversation (for analytics). Must be >= 0.
 </ParamField>
@@ -61,12 +69,33 @@ description: "Orchestrates a multi-bidder auction across multiple DSPs and retur
   - If set to **`"opener"`**: Indicates a **non-prompted ad** that displays before the conversation starts (pre-conversation ad placement)
 </ParamField>
 
+<ParamField body="country_code" type="string">
+  ISO 3166-1 alpha-2 country code (e.g., `"US"`, `"GB"`, `"DE"`). Used for geo-targeting ads.
+</ParamField>
+
+<ParamField body="region" type="string">
+  State or region name (e.g., `"California"`, `"England"`, `"Bavaria"`). Used for regional ad targeting.
+</ParamField>
+
+<ParamField body="city" type="string">
+  City name (e.g., `"San Francisco"`, `"London"`, `"Munich"`). Used for local ad targeting.
+</ParamField>
+
+<ParamField body="device" type="string">
+  Device type. Must be either `"mobile"` or `"desktop"`. Used for device-specific ad targeting.
+</ParamField>
+
+<ParamField body="timezone" type="string">
+  IANA timezone identifier (e.g., `"America/Los_Angeles"`, `"Europe/London"`). Used for time-based ad targeting.
+</ParamField>
+
 <RequestExample>
 
 ```json Example Request
 {
   "userId": "user_123",
   "chatId": "chat_456",
+  "nAdsBefore": 2,
   "messages": [
     {
       "role": "user",
@@ -80,8 +109,12 @@ description: "Orchestrates a multi-bidder auction across multiple DSPs and retur
     }
   ],
   "production": true,
-  "turn_number": 4,
-  "adtype": ""
+  "request_id": "req_abc123",
+  "country_code": "US",
+  "region": "California",
+  "city": "San Francisco",
+  "device": "mobile",
+  "timezone": "America/Los_Angeles"
 }
 ```
 
@@ -241,16 +274,16 @@ description: "Orchestrates a multi-bidder auction across multiple DSPs and retur
 The endpoint orchestrates a multi-bidder auction:
 
 1. **Validate Request**: Checks authentication, rate limits, and request format
-2. **Fan Out to DSPs**: Sends bid requests to multiple DSPs in parallel (timeout: 3.0s)
+2. **Fan Out to DSPs**: Sends bid requests to multiple DSPs in parallel (timeout: 2.0s)
 3. **Run Auction**: Selects winner using first-price auction with floor price ($1.00 CPM minimum)
 4. **Render Ad**: Calls winning DSP's render endpoint to get ad creative (timeout: 1.5s)
 5. **Return Response**: Returns winning ad creative or no-bid response
 
 ## Timeouts
 
-- **Bid requests**: 3.0 seconds per DSP
+- **Bid requests**: 2.0 seconds per DSP
 - **Render requests**: 1.5 seconds
-- **Total**: ~4.5 seconds maximum
+- **Total**: ~3.5 seconds maximum
 
 ## Rate Limits
 
@@ -297,15 +330,38 @@ def get_chat_id():
     return f"chat_{uuid.uuid4()}"
 
 
-def make_bid_request(conversation_messages, production=True, turn_number=0, ad_type=""):
+def make_bid_request(
+    conversation_messages,
+    n_ads_before=0,
+    production=True,
+    request_id=None,
+    country_code=None,
+    region=None,
+    city=None,
+    device=None,
+    timezone=None,
+):
     payload = {
         "userId": get_user_id(),
         "chatId": get_chat_id(),
+        "nAdsBefore": n_ads_before,
         "messages": conversation_messages,
         "production": production,
-        "turn_number": turn_number,
-        "adtype": ad_type,
     }
+
+    # Add optional fields if provided
+    if request_id:
+        payload["request_id"] = request_id
+    if country_code:
+        payload["country_code"] = country_code
+    if region:
+        payload["region"] = region
+    if city:
+        payload["city"] = city
+    if device:
+        payload["device"] = device
+    if timezone:
+        payload["timezone"] = timezone
 
     headers = {
         "thrad-api-key": API_KEY,
@@ -371,10 +427,16 @@ const response = await fetch('https://ssp.thrads.ai/api/v1/ssp/bid-request', {
   body: JSON.stringify({
     userId: getUserId(),
     chatId: getChatId(),
+    nAdsBefore: adsShownCount, // Track ads shown in this conversation
     messages: conversationMessages,
     production: true,
-    turn_number: currentTurn,
-    adtype: "" // or "opener" for pre-conversation ads
+    request_id: `req_${crypto.randomUUID()}`, // Optional: for tracking
+    // Geo & device targeting (optional but recommended)
+    country_code: "US",
+    region: "California",
+    city: "San Francisco",
+    device: "mobile", // "mobile" or "desktop"
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone // Auto-detect
   })
 });
 

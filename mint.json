@@ -36,7 +36,8 @@
     {
       "group": "API Reference",
       "pages": [
-        "api-reference/bid-request"
+        "api-reference/bid-request",
+        "api-reference/dsp-endpoints"
       ]
     }
   ],
