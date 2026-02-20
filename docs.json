@@ -1,0 +1,64 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Thrads API Documentation",
+  "colors": {
+    "primary": "#FF6B35",
+    "light": "#FF8C5A",
+    "dark": "#E55A2B"
+  },
+  "favicon": "/favicon.svg",
+  "logo": {
+    "light": "/favicon.svg",
+    "dark": "/favicon.svg"
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Docs",
+        "groups": [
+          {
+            "group": "Get started",
+            "pages": [
+              "introduction",
+              "what-is-thrads",
+              "quickstart"
+            ]
+          },
+          {
+            "group": "Guides",
+            "pages": [
+              "guides/bid-request"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API reference",
+        "groups": [
+          {
+            "group": "API reference",
+            "pages": [
+              "api-reference/bid-request",
+              "api-reference/dsp-endpoints"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "navbar": {
+    "primary": {
+      "type": "button",
+      "label": "Platform",
+      "href": "https://platform.thrads.ai"
+    }
+  },
+  "footer": {
+    "socials": {
+      "x": "https://x.com/Thrad_ai",
+      "github": "https://github.com/Thrads",
+      "linkedin": "https://www.linkedin.com/company/thrads"
+    }
+  }
+}

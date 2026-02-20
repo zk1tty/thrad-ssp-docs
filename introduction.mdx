@@ -1,0 +1,41 @@
+---
+title: "Overview"
+description: "Getting started with the Thrads SSP API"
+---
+
+<img src="/images/gpt_generated_img.png" alt="Thrads SSP Platform" />
+
+Thrads is a Supply-Side Platform (SSP) built for conversational AI. Send a conversation to the Thrads API and get back a contextually relevant ad creative in a single request — no auction management, no DSP integrations, no bidding logic on your end.
+
+## How it works
+
+**Auction** — When you send a conversation, Thrads fans it out to multiple DSPs simultaneously, runs a first-price auction, and selects the winning bid.
+
+**Render** — Thrads calls the winning DSP's render endpoint to retrieve the ad creative.
+
+**Response** — You receive the complete ad creative (headline, description, image, CTA, click URL) or a no-bid response if no suitable match was found.
+
+## Get started
+
+<CardGroup cols={3}>
+  <Card title="What is Thrads" icon="circle-info" href="/what-is-thrads">
+    Understand the platform, key concepts, and how the auction works
+  </Card>
+  <Card title="Quickstart" icon="bolt" href="/quickstart">
+    Make your first API call in minutes
+  </Card>
+  <Card title="Integration guide" icon="book" href="/guides/bid-request">
+    Full walkthrough for integrating bid requests into your app
+  </Card>
+</CardGroup>
+
+## Integration paths
+
+<CardGroup cols={2}>
+  <Card title="Bid request" icon="gavel" href="/api-reference/bid-request">
+    POST a conversation and receive the winning ad creative
+  </Card>
+  <Card title="DSP endpoints" icon="server" href="/api-reference/dsp-endpoints">
+    Reference for DSPs implementing bid and render endpoints
+  </Card>
+</CardGroup>
