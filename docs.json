@@ -28,25 +28,26 @@
             "icon": "rocket"
           },
           {
-            "group": "Serve Ads",
+            "group": "Step 1: Collect Signals",
             "pages": [
-              "guides/ad-formats"
+              "collect-signals/overview",
+              "collect-signals/setup"
             ],
-            "icon": "arrow-right"
+            "icon": "signal"
           },
           {
-            "group": "Collect Signals",
+            "group": "Step 2: Bid Request",
             "pages": [
-              "guides/signal-collection"
-            ],
-            "icon": "lightbulb"
-          },
-          {
-            "group": "Bid Request",
-            "pages": [
-              "guides/bid-request"
+              "bid-request/bid-request"
             ],
             "icon": "gavel"
+          },
+          {
+            "group": "Step 3: Serve Ads",
+            "pages": [
+              "serve-ads/ad-formats"
+            ],
+            "icon": "arrow-right"
           }
         ]
       },
