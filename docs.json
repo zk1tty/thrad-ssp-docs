@@ -16,26 +16,43 @@
     "tabs": [
       {
         "tab": "Docs",
+        "icon": "book-open",
         "groups": [
           {
-            "group": "Get started",
+            "group": "Get Started",
             "pages": [
-              "introduction",
-              "what-is-thrads",
-              "quickstart",
-              "guides/ad-formats"
-            ]
+              "introduction/introduction",
+              "introduction/what-is-thrads",
+              "introduction/quickstart"
+            ],
+            "icon": "rocket"
           },
           {
-            "group": "Guides",
+            "group": "Serve Ads",
+            "pages": [
+              "guides/ad-formats"
+            ],
+            "icon": "arrow-right"
+          },
+          {
+            "group": "Collect Signals",
+            "pages": [
+              "guides/signal-collection"
+            ],
+            "icon": "lightbulb"
+          },
+          {
+            "group": "Bid Request",
             "pages": [
               "guides/bid-request"
-            ]
+            ],
+            "icon": "gavel"
           }
         ]
       },
       {
         "tab": "API reference",
+        "icon": "terminal",
         "groups": [
           {
             "group": "API reference",

@@ -29,7 +29,7 @@ This guide provides comprehensive instructions on integrating real-time ad aucti
 The bid request endpoint orchestrates a sophisticated auction process:
 
 1. **Validate Request**: Checks authentication, rate limits, and request format
-2. **Fan Out to DSPs**: Sends bid requests to multiple DSPs in parallel (timeout: 1.5s)
+2. **Fan Out to DSPs**: Sends bid requests to multiple DSPs in parallel (timeout: 2.0s)
 3. **Run Auction**: Selects winner using first-price auction with floor price ($1.00 CPM minimum)
 4. **Render Ad**: Calls winning DSP's render endpoint to get ad creative (timeout: 1.5s)
 5. **Return Response**: Returns winning ad creative or no-bid response
@@ -165,8 +165,6 @@ def make_bid_request(conversation_messages, production=True, turn_number=0, ad_t
     else:
         print("No bid available")
         return None
-
-    return data
 ```
 
 </CodeGroup>
@@ -324,11 +322,11 @@ The optional `adtype` parameter controls when and how ads are displayed:
 Including timestamps enables better analytics and targeting:
 
 ```javascript
-{
-  "role": "user",
-  "content": "Looking for winter jackets",
-  "timestamp": new Date().toISOString()
-}
+messages.push({
+  role: "user",
+  content: "Looking for winter jackets",
+  timestamp: new Date().toISOString()
+});
 ```
 
 ### 2. Handle Timeouts Gracefully
@@ -355,7 +353,7 @@ try {
 
 ### 3. Respect Rate Limits
 
-The API supports **40 requests per second** per API key. Monitor rate limit headers:
+The API supports **100 requests per second** per API key. Monitor rate limit headers:
 
 ```javascript
 const rateLimitRemaining = response.headers.get('X-RateLimit-Remaining');
@@ -370,7 +368,7 @@ if (rateLimitRemaining < 10) {
 
 For browser-based requests, register your domains with Thrad:
 
-- Contact contact@thrad.ai to whitelist your domains
+- Contact contact@thrads.ai to whitelist your domains
 - Include the `Origin` header in requests
 - Handle CORS preflight requests properly
 
@@ -484,6 +482,6 @@ Here's how a sponsored message might appear in your chat application:
 - Review the complete [API Reference](/api-reference/bid-request) for detailed parameter documentation
 - Set up monitoring for request success rates and latency
 - Configure your domains for CORS support
-- Contact support@thrad.ai for production API key and assistance
+- Contact contact@thrads.ai for production API key and assistance
 
-For questions or support, reach out to contact@thrad.ai
+For questions or support, reach out to contact@thrads.ai
