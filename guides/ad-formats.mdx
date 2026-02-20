@@ -1,0 +1,44 @@
+---
+title: "Ad formats"
+description: "Preview how Thrads ad creatives appear across different AI experiences and formats"
+---
+
+import { AdFormatDemo } from '/snippets/ad-format-demo.jsx';
+
+Preview how Thrads ad creatives appear across different AI experiences and formats. Use this as a reference when building your rendering UI.
+
+<AdFormatDemo />
+
+## Response structure
+
+Every winning bid returns the same object regardless of which format you choose to render:
+
+```json
+{
+  "data": {
+    "bid": {
+      "advertiser": "Nike",
+      "headline": "Premium Running Shoes",
+      "description": "Lightweight and responsive for marathon training.",
+      "cta_text": "Shop Now",
+      "url": "https://ssp.thrads.ai/api/v1/dsp/redirect/abc123",
+      "image_url": "https://cdn.example.com/nike-shoes.jpg",
+      "price": 5.50,
+      "bidId": "bid_abc123"
+    }
+  }
+}
+```
+
+The `url` field is a Thrads click-tracking URL. Always use it for ad clicks — it handles tracking and redirects to the advertiser's landing page.
+
+## Rendering checklist
+
+- Show the advertiser name and a **Sponsored** label — this is required
+- Make the entire ad clickable using the `url` field
+- Display `cta_text` as a button or link (fall back to `"Learn More"` if absent)
+- Render `image_url` only when present — it is optional
+- Distinguish the ad visually from surrounding content (border, background tint, or indentation)
+- Handle `bid: null` gracefully — skip rendering, no error state needed
+
+For questions or support, contact [contact@thrads.ai](mailto:contact@thrads.ai).

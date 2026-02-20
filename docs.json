@@ -22,7 +22,8 @@
             "pages": [
               "introduction",
               "what-is-thrads",
-              "quickstart"
+              "quickstart",
+              "guides/ad-formats"
             ]
           },
           {
