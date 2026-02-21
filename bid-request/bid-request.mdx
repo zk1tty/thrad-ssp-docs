@@ -87,7 +87,7 @@ function getChatId() {
 
 // Make bid request
 async function fetchAd(conversationMessages, turnNumber, adType = "") {
-  const response = await fetch('https://ssp.thrads.ai/api/v1/ssp/bid-request', {
+  const response = await fetch('https://ssp.thrad.ai/api/v1/ssp/bid-request', {
     method: 'POST',
     headers: {
       'thrad-api-key': 'your-api-key',
@@ -125,7 +125,7 @@ async function fetchAd(conversationMessages, turnNumber, adType = "") {
 import uuid
 import requests
 
-BASE_URL = "https://ssp.thrads.ai/api/v1/ssp/bid-request"
+BASE_URL = "https://ssp.thrad.ai/api/v1/ssp/bid-request"
 API_KEY = "your-api-key"
 
 
@@ -252,7 +252,7 @@ The optional `adtype` parameter controls when and how ads are displayed:
       "headline": "Premium Running Shoes",
       "description": "Perfect for marathon training. Lightweight and comfortable.",
       "cta_text": "Shop Now",
-      "url": "https://ssp.thrads.ai/api/v1/dsp/redirect/abc123",
+      "url": "https://ssp.thrad.ai/api/v1/dsp/redirect/abc123",
       "image_url": "https://cdn.example.com/nike-shoes.jpg",
       "dsp": "thrad_dsp",
       "bidId": "bid_abc123"
@@ -368,7 +368,7 @@ if (rateLimitRemaining < 10) {
 
 For browser-based requests, register your domains with Thrad:
 
-- Contact contact@thrads.ai to whitelist your domains
+- Contact contact@thrad.ai to whitelist your domains
 - Include the `Origin` header in requests
 - Handle CORS preflight requests properly
 
@@ -482,6 +482,6 @@ Here's how a sponsored message might appear in your chat application:
 - Review the complete [API Reference](/api-reference/bid-request) for detailed parameter documentation
 - Set up monitoring for request success rates and latency
 - Configure your domains for CORS support
-- Contact contact@thrads.ai for production API key and assistance
+- Contact contact@thrad.ai for production API key and assistance
 
-For questions or support, reach out to contact@thrads.ai
+For questions or support, reach out to contact@thrad.ai

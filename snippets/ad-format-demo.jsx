@@ -162,7 +162,7 @@ export const AdFormatDemo = () => {
       { indent: 2, label: 'AdDisplay.tsx', active: true },
       { indent: 2, label: 'ChatApp.tsx' },
       { indent: 1, arrow: '▸', label: 'lib' },
-      { indent: 2, label: 'thrads.ts' },
+      { indent: 2, label: 'thrad.ts' },
       { indent: 1, label: 'App.tsx' },
       { indent: 0, label: 'package.json' },
     ];
@@ -190,7 +190,7 @@ export const AdFormatDemo = () => {
           </div>
           <div style={{ flex: 1, padding: '14px 8px', overflowY: 'auto', fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace' }}>
             <Line n={1}><span style={{ color: kw }}>import</span>{' { useState } '}<span style={{ color: kw }}>from</span>{' '}<span style={{ color: str }}>'react'</span></Line>
-            <Line n={2}><span style={{ color: kw }}>import</span>{' { fetchAd } '}<span style={{ color: kw }}>from</span>{' '}<span style={{ color: str }}>'../lib/thrads'</span></Line>
+            <Line n={2}><span style={{ color: kw }}>import</span>{' { fetchAd } '}<span style={{ color: kw }}>from</span>{' '}<span style={{ color: str }}>'../lib/thrad'</span></Line>
             <Line n={3}>{''}</Line>
             <Line n={4}><span style={{ color: kw }}>export function</span>{' AdDisplay({ messages }) {'}</Line>
             <Line n={5}>{'  '}<span style={{ color: kw }}>const</span>{' [ad, setAd] = useState('}<span style={{ color: bl }}>null</span>{')'}</Line>

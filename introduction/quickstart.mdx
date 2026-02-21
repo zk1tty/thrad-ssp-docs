@@ -3,17 +3,17 @@ title: "Quickstart"
 description: "Make your first bid request in minutes"
 ---
 
-This guide walks you through making your first API call to the Thrads SSP. You'll use sandbox mode so no real auction runs and an ad is always returned.
+This guide walks you through making your first API call to the Thrad SSP. You'll use sandbox mode so no real auction runs and an ad is always returned.
 
 ## Prerequisites
 
-- A Thrads account. Go to [platform.thrads.ai](https://platform.thrads.ai) and sign up as a **developer**.
+- A Thrad account. Go to [platform.thrad.ai](https://platform.thrad.ai) and sign up as a **developer**.
 
 <Note>
   The platform is currently open to trusted partners. After you apply, allow up to 24 hours for your account to be reviewed before you can create an API key.
 </Note>
 
-- Your API key from the Thrads platform.
+- Your API key from the Thrad platform.
 
 ## Make your first request
 
@@ -22,7 +22,7 @@ Send a POST request with a sample conversation. Set `production: false` to use s
 <CodeGroup>
 
 ```bash cURL
-curl -X POST https://ssp.thrads.ai/api/v1/ssp/bid-request \
+curl -X POST https://ssp.thrad.ai/api/v1/ssp/bid-request \
   -H "thrad-api-key: your-api-key" \
   -H "Content-Type: application/json" \
   -d '{
@@ -45,7 +45,7 @@ curl -X POST https://ssp.thrads.ai/api/v1/ssp/bid-request \
 ```
 
 ```javascript JavaScript
-const response = await fetch('https://ssp.thrads.ai/api/v1/ssp/bid-request', {
+const response = await fetch('https://ssp.thrad.ai/api/v1/ssp/bid-request', {
   method: 'POST',
   headers: {
     'thrad-api-key': 'your-api-key',
@@ -78,7 +78,7 @@ console.log(data);
 import requests
 
 response = requests.post(
-    "https://ssp.thrads.ai/api/v1/ssp/bid-request",
+    "https://ssp.thrad.ai/api/v1/ssp/bid-request",
     headers={
         "thrad-api-key": "your-api-key",
         "Content-Type": "application/json",
@@ -127,7 +127,7 @@ In sandbox mode you'll always receive a bid. In production, `bid` may be `null`.
       "headline": "Premium Running Shoes",
       "description": "Perfect for marathon training. Lightweight and comfortable.",
       "cta_text": "Shop Now",
-      "url": "https://ssp.thrads.ai/api/v1/dsp/redirect/abc123",
+      "url": "https://ssp.thrad.ai/api/v1/dsp/redirect/abc123",
       "image_url": "https://cdn.example.com/nike-shoes.jpg",
       "dsp": "thrad_dsp",
       "bidId": "bid_abc123"
@@ -151,7 +151,7 @@ if (data.data.bid) {
 
 | Property | Value |
 |----------|-------|
-| Base URL | `https://ssp.thrads.ai` |
+| Base URL | `https://ssp.thrad.ai` |
 | Rate limit | 100 requests per second per API key |
 | Max response time | ~3.5 seconds |
 

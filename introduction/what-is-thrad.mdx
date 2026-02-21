@@ -1,36 +1,36 @@
 ---
-title: "What is Thrads"
-description: "Understand the Thrads SSP platform and how ad auctions work"
+title: "What is Thrad"
+description: "Understand the Thrad SSP platform and how ad auctions work"
 ---
 
-Thrads is a Supply-Side Platform (SSP). As a publisher, you integrate the Thrads API into your AI application. Thrads handles finding advertisers, running auctions, and returning ad creatives — you just send conversations and display what comes back.
+Thrad is a Supply-Side Platform (SSP). As a publisher, you integrate the Thrad API into your AI application. Thrad handles finding advertisers, running auctions, and returning ad creatives — you just send conversations and display what comes back.
 
 ## Key concepts
 
 **Publisher** — You. Any developer or company running an AI application that wants to earn revenue by displaying ads.
 
-**DSP (Demand-Side Platform)** — Advertisers or ad networks that bid to show their ads to your users. Thrads manages relationships with multiple DSPs on your behalf.
+**DSP (Demand-Side Platform)** — Advertisers or ad networks that bid to show their ads to your users. Thrad manages relationships with multiple DSPs on your behalf.
 
-**Bid request** — The API call you make. You send the conversation history and Thrads orchestrates the auction.
+**Bid request** — The API call you make. You send the conversation history and Thrad orchestrates the auction.
 
 **Ad creative** — What you get back: a headline, description, image, CTA button, and a click-tracking URL ready to render.
 
-**First-price auction** — Thrads sends your conversation to all registered DSPs simultaneously. Each DSP responds with a bid (CPM in dollars). The highest bid wins. The winner's render endpoint is called and the creative is returned to you.
+**First-price auction** — Thrad sends your conversation to all registered DSPs simultaneously. Each DSP responds with a bid (CPM in dollars). The highest bid wins. The winner's render endpoint is called and the creative is returned to you.
 
 ## Auction flow
 
 <Steps>
   <Step title="You send a bid request">
-    Your application POSTs the conversation history to `https://ssp.thrads.ai/api/v1/ssp/bid-request`.
+    Your application POSTs the conversation history to `https://ssp.Thrad.ai/api/v1/ssp/bid-request`.
   </Step>
-  <Step title="Thrads fans out to DSPs">
-    Thrads sends the conversation to all registered DSPs in parallel. DSPs have 2.0 seconds to respond with a bid.
+  <Step title="Thrad fans out to DSPs">
+    Thrad sends the conversation to all registered DSPs in parallel. DSPs have 2.0 seconds to respond with a bid.
   </Step>
   <Step title="First-price auction runs">
     The highest bid above the $1.00 CPM floor price wins. If no DSP bids, a no-bid response is returned.
   </Step>
   <Step title="Ad creative is rendered">
-    Thrads calls the winning DSP's render endpoint (1.5s timeout) to fetch the ad creative.
+    Thrad calls the winning DSP's render endpoint (1.5s timeout) to fetch the ad creative.
   </Step>
   <Step title="You receive the creative">
     The full ad creative is returned in the API response. You display it, or skip it gracefully if the bid is null.
@@ -47,7 +47,7 @@ Use `"production": false` during development. In sandbox mode, an ad is always r
 
 ## User and conversation identifiers
 
-Thrads uses two identifiers to improve ad relevance over time:
+Thrad uses two identifiers to improve ad relevance over time:
 
 - **`userId`** — An anonymous UUID stored in `localStorage`. Never use PII (email, name, phone). Generate once per user and persist it.
 - **`chatId`** — A unique ID per conversation stored in `sessionStorage`. Reset when the user starts a new chat.
@@ -62,7 +62,7 @@ All requests require your API key in the request header:
 thrad-api-key: your-api-key
 ```
 
-For browser-based integrations, your domain must also be registered for CORS support. Contact [contact@thrads.ai](mailto:contact@thrads.ai) to register your domains.
+For browser-based integrations, your domain must also be registered for CORS support. Contact [contact@Thrad.ai](mailto:contact@Thrad.ai) to register your domains.
 
 ## Next steps
 
