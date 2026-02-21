@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 export const AdFormatDemo = () => {
   const [experience, setExperience] = useState('CLI');
-  const [format, setFormat] = useState('Banner');
+  const [format, setFormat] = useState('Card');
 
   const C = {
     orange: '#FF6B35',
@@ -30,39 +30,41 @@ export const AdFormatDemo = () => {
     cta: 'Try Free',
   };
 
+  const chatAd = {
+    advertiser: 'Headspace',
+    headline: 'Find calm in the chaos.',
+    description: 'Guided meditations, sleep sounds, and stress relief — free to try.',
+    cta: 'Try Free',
+  };
+
   const Badge = () => (
     <span style={{ fontSize: '10px', fontWeight: 700, color: C.orange, backgroundColor: C.orangeA20, padding: '2px 6px', borderRadius: '4px', display: 'inline-block', fontFamily: 'sans-serif', letterSpacing: '0.03em', width: 'fit-content' }}>
       Sponsored
     </span>
   );
 
+  const HoverLink = ({ href = '#', style, children }) => {
+    const [hovered, setHovered] = useState(false);
+    return (
+      <a href={href} style={{ ...style, color: hovered ? C.orange : C.text2 }}
+        onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
+        {children}
+      </a>
+    );
+  };
+
   // ── Ad slots ────────────────────────────────────────────────
 
-  const BannerAd = () => (
+  const CardAd = ({ adData }) => (
     <div style={{ padding: '10px 24px', borderTop: `1px solid ${C.border}`, maxWidth: '700px', margin: '0 auto', width: '100%' }}>
-      <div style={{ border: `1px solid ${C.orangeBorder}`, borderRadius: '8px', backgroundColor: C.orangeA5, padding: '10px 12px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-        <Badge />
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ color: C.orange, fontWeight: 500, fontFamily: 'sans-serif', fontSize: '13px' }}>{ad.advertiser}</span>
-          <span style={{ color: C.text5 }}>—</span>
-          <span style={{ color: '#ccc', fontFamily: 'sans-serif', fontSize: '13px' }}>{ad.headline}</span>
-        </div>
-        <p style={{ margin: 0, fontSize: '12px', color: C.text3, fontFamily: 'sans-serif', lineHeight: '1.5' }}>{ad.description}</p>
-        <a href="#" style={{ margin: 0, fontSize: '12px', color: C.blue, fontFamily: 'sans-serif', textDecoration: 'none' }}>→ {ad.cta}</a>
-      </div>
-    </div>
-  );
-
-  const CardAd = () => (
-    <div style={{ padding: '10px 24px', borderTop: `1px solid ${C.border}`, maxWidth: '700px', margin: '0 auto', width: '100%' }}>
-      <div style={{ border: `1px solid ${C.orangeBorder}`, borderRadius: '10px', backgroundColor: C.orangeA5, overflow: 'hidden' }}>
+      <div style={{ border: `1px solid ${C.border}`, borderRadius: '10px', backgroundColor: C.bg2, overflow: 'hidden' }}>
         <div style={{ padding: '10px 12px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
           <Badge />
-          <span style={{ color: C.orange, fontWeight: 600, fontFamily: 'sans-serif', fontSize: '14px' }}>{ad.headline}</span>
-          <span style={{ color: C.text3, fontSize: '12px', fontFamily: 'sans-serif' }}>{ad.advertiser}</span>
-          <p style={{ margin: '2px 0 0', fontSize: '12px', color: C.text3, fontFamily: 'sans-serif', lineHeight: '1.5' }}>{ad.description}</p>
+          <span style={{ color: C.orange, fontWeight: 600, fontFamily: 'sans-serif', fontSize: '14px' }}>{adData.headline}</span>
+          <span style={{ color: C.text3, fontSize: '12px', fontFamily: 'sans-serif' }}>{adData.advertiser}</span>
+          <p style={{ margin: '2px 0 0', fontSize: '12px', color: C.text3, fontFamily: 'sans-serif', lineHeight: '1.5' }}>{adData.description}</p>
           <div style={{ marginTop: '6px' }}>
-            <a href="#" style={{ display: 'inline-block', padding: '5px 14px', backgroundColor: C.orange, color: C.white, borderRadius: '5px', fontSize: '12px', fontWeight: 600, fontFamily: 'sans-serif', textDecoration: 'none' }}>{ad.cta}</a>
+            <a href="#" style={{ display: 'inline-block', padding: '5px 14px', backgroundColor: C.orange, color: C.white, borderRadius: '5px', fontSize: '12px', fontWeight: 600, fontFamily: 'sans-serif', textDecoration: 'none' }}>{adData.cta}</a>
           </div>
         </div>
       </div>
@@ -98,7 +100,7 @@ export const AdFormatDemo = () => {
             <span style={{ color: C.orange, fontSize: '10px', fontWeight: 700, fontFamily: 'sans-serif', letterSpacing: '0.05em' }}>SPONSORED · {ad.advertiser}</span>
             <p style={{ margin: '3px 0 0', color: C.text3, fontSize: '12px', fontFamily: 'sans-serif', lineHeight: '1.5' }}>
               {ad.headline} {ad.description}{' '}
-              <a href="#" style={{ color: C.blue, textDecoration: 'none' }}>→ {ad.cta}</a>
+              <HoverLink style={{ textDecoration: 'none' }}>→ {ad.cta}</HoverLink>
             </p>
           </div>
         </>
@@ -117,7 +119,7 @@ export const AdFormatDemo = () => {
     <div style={{ padding: '20px', flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '14px', maxWidth: '700px', margin: '0 auto', width: '100%' }}>
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <div style={{ backgroundColor: '#2a2a2a', borderRadius: '14px 14px 4px 14px', padding: '10px 14px', maxWidth: '72%', color: C.text1, fontSize: '13px', fontFamily: 'sans-serif', lineHeight: '1.55' }}>
-          How do I add user authentication to my React app?
+          I've been so stressed by work and the stupid corporate culture lately. I don't know how to deal with it.
         </div>
       </div>
 
@@ -126,25 +128,25 @@ export const AdFormatDemo = () => {
 
         {format === 'Inline' ? (
           <div style={{ backgroundColor: C.bg2, borderRadius: '4px 14px 14px 14px', padding: '10px 14px', maxWidth: '80%', color: C.text2, fontSize: '13px', fontFamily: 'sans-serif', lineHeight: '1.65' }}>
-            Authentication has a lot of edge cases — sign up, sign in, password reset, and session management. Popular choice:{' '}
-            <a href="#" style={{ color: C.blue, textDecoration: 'none' }}>Supabase Auth <span style={{ fontSize: '9px', color: C.orange }}>[Sponsored]</span></a>
-            {' '}— email, magic links, and OAuth in one SDK.
+            That sounds really exhausting. Corporate stress can wear you down fast. Even short daily resets help —{' '}
+            <a href="#" style={{ color: C.blue, textDecoration: 'none' }}>Headspace <span style={{ fontSize: '9px', color: C.orange }}>[Sponsored]</span></a>
+            {' '}has guided meditations built specifically for work stress.
           </div>
         ) : format === 'Appended' ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxWidth: '80%' }}>
             <div style={{ backgroundColor: C.bg2, borderRadius: '4px 14px 14px 14px', padding: '10px 14px', color: C.text2, fontSize: '13px', fontFamily: 'sans-serif', lineHeight: '1.65' }}>
-              Authentication has a lot of edge cases — sign up, sign in, password reset, and session management. Popular choices: Auth.js, Clerk, and Supabase Auth.
+              That sounds really exhausting. Corporate stress can wear you down fast. Setting boundaries and small daily resets — even 5 minutes — can make a real difference over time.
             </div>
-            <div style={{ border: `1px solid ${C.orangeBorder}`, borderRadius: '10px', backgroundColor: C.orangeA5, padding: '8px 12px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            <div style={{ border: `1px solid ${C.border}`, borderRadius: '10px', backgroundColor: C.bg2, padding: '8px 12px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
               <Badge />
-              <span style={{ color: C.orange, fontWeight: 500, fontSize: '12px', fontFamily: 'sans-serif' }}>{ad.advertiser} · {ad.headline}</span>
-              <p style={{ margin: 0, fontSize: '11px', color: C.text3, fontFamily: 'sans-serif', lineHeight: '1.45' }}>{ad.description}</p>
-              <a href="#" style={{ fontSize: '11px', color: C.blue, fontFamily: 'sans-serif', textDecoration: 'none' }}>→ {ad.cta}</a>
+              <span style={{ color: C.text1, fontWeight: 500, fontSize: '12px', fontFamily: 'sans-serif' }}>{chatAd.advertiser} · {chatAd.headline}</span>
+              <p style={{ margin: 0, fontSize: '11px', color: C.text3, fontFamily: 'sans-serif', lineHeight: '1.45' }}>{chatAd.description}</p>
+              <HoverLink style={{ fontSize: '11px', fontFamily: 'sans-serif', textDecoration: 'none' }}>→ {chatAd.cta}</HoverLink>
             </div>
           </div>
         ) : (
           <div style={{ backgroundColor: C.bg2, borderRadius: '4px 14px 14px 14px', padding: '10px 14px', maxWidth: '80%', color: C.text2, fontSize: '13px', fontFamily: 'sans-serif', lineHeight: '1.65' }}>
-            Authentication has a lot of edge cases — sign up, sign in, password reset, and session management. Should I show you how to set up protected routes with the auth context?
+            That sounds really exhausting. Corporate stress can wear you down fast. Setting small boundaries and taking short mental breaks each day can genuinely help over time.
           </div>
         )}
       </div>
@@ -241,18 +243,18 @@ export const AdFormatDemo = () => {
               <>
                 <p style={{ margin: 0 }}>Authentication is tricky — lots of edge cases. Popular choices: Auth.js, Clerk, and Supabase Auth.</p>
                 <p style={{ margin: 0, color: C.text3 }}>Should I show you how to set up protected routes?</p>
-                <div style={{ border: `1px solid ${C.orangeBorder}`, borderRadius: '8px', backgroundColor: C.orangeA5, padding: '8px 10px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <div style={{ border: `1px solid ${C.border}`, borderRadius: '8px', backgroundColor: C.bg2, padding: '8px 10px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
                   <Badge />
                   <span style={{ color: C.orange, fontWeight: 500, fontSize: '12px' }}>{ad.advertiser} · {ad.headline}</span>
                   <p style={{ margin: 0, fontSize: '11px', color: C.text3, lineHeight: '1.4' }}>{ad.description}</p>
-                  <a href="#" style={{ fontSize: '11px', color: C.blue, textDecoration: 'none' }}>→ {ad.cta}</a>
+                  <HoverLink style={{ fontSize: '11px', textDecoration: 'none' }}>→ {ad.cta}</HoverLink>
                 </div>
               </>
             ) : format === 'Card' ? (
               <>
                 <p style={{ margin: 0 }}>Authentication is tricky — lots of edge cases. Popular choices: Auth.js, Clerk, and Supabase Auth.</p>
                 <p style={{ margin: 0, color: C.text3 }}>Should I show you how to set up protected routes?</p>
-                <div style={{ border: `1px solid ${C.orangeBorder}`, borderRadius: '10px', backgroundColor: C.orangeA5, overflow: 'hidden' }}>
+                <div style={{ border: `1px solid ${C.border}`, borderRadius: '10px', backgroundColor: C.bg2, overflow: 'hidden' }}>
                   <div style={{ padding: '8px 10px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     <Badge />
                     <span style={{ color: C.orange, fontWeight: 600, fontSize: '13px' }}>{ad.headline}</span>
@@ -296,7 +298,7 @@ export const AdFormatDemo = () => {
 
   // ── Compose layout ───────────────────────────────────────────
 
-  const showBottomAd = format === 'Banner' || (format === 'Card' && experience !== 'IDE');
+  const showBottomAd = format === 'Card' && experience !== 'IDE';
   const Messages = experience === 'CLI' ? CLIMessages : experience === 'Chat' ? ChatMessages : IDEMessages;
 
   return (
@@ -317,7 +319,7 @@ export const AdFormatDemo = () => {
         <div>
           <span style={{ display: 'block', fontSize: '11px', color: C.text4, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '10px', fontFamily: 'sans-serif' }}>Format</span>
           <div style={{ display: 'inline-flex', border: '1px solid #333', borderRadius: '8px', overflow: 'hidden' }}>
-            {['Card', 'Inline', 'Appended', 'Banner'].map((fmt, i, arr) => (
+            {['Card', 'Inline', 'Appended'].map((fmt, i, arr) => (
               <button key={fmt} onClick={() => setFormat(fmt)} style={{ padding: '8px 20px', fontSize: '13px', fontWeight: 500, cursor: 'pointer', border: 'none', outline: 'none', borderRight: i < arr.length - 1 ? '1px solid #333' : 'none', backgroundColor: format === fmt ? '#1f1f1f' : 'transparent', color: format === fmt ? C.white : C.text4, fontFamily: 'sans-serif', transition: 'color 0.15s, background-color 0.15s' }}>
                 {fmt}
               </button>
@@ -329,7 +331,7 @@ export const AdFormatDemo = () => {
       {/* Preview */}
       <div style={{ backgroundColor: C.bg, border: `1px solid ${C.border}`, borderRadius: '12px', overflow: 'hidden', height: '480px', display: 'flex', flexDirection: 'column', maxWidth: '900px', margin: '0 auto' }}>
         <Messages />
-        {showBottomAd && (format === 'Banner' ? <BannerAd /> : <CardAd />)}
+        {showBottomAd && <CardAd adData={experience === 'Chat' ? chatAd : ad} />}
         {showBottomAd && <CursorBar />}
       </div>
     </div>
