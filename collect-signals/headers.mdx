@@ -1,0 +1,159 @@
+---
+title: "Headers Reference"
+description: "Complete reference for MCP Signal Server request headers"
+---
+
+All requests to the Thrad MCP Signal Server are authenticated and attributed via HTTP headers.
+
+## Required headers
+
+| Header | Description |
+|---|---|
+| `thrad-api-key` | Your Thrad API key for authentication |
+| `x-thrad-llm-model` | LLM model identifier (e.g. `openai/gpt-4o`, `anthropic/claude-sonnet-4-5`) |
+| `Content-Type` | Must be `application/json` |
+| `Accept` | Must include `application/json, text/event-stream` |
+
+## Authentication
+
+The `thrad-api-key` header is required for every request:
+
+```
+thrad-api-key: YOUR_API_KEY
+```
+
+Requests without a valid API key receive a `401 Unauthorized` response. Contact [contact@thrad.ai](mailto:contact@thrad.ai) to obtain your key.
+
+## User context headers
+
+All user context headers use the `x-thrad-user-*` prefix.
+
+**`x-thrad-user-id`**
+
+```
+x-thrad-user-id: user-123
+```
+
+A unique, anonymous identifier for the end user. Use your internal user ID or a hashed value — never raw PII.
+- Format: string, max 255 characters
+- Use case: aggregate signals per user for personalization
+
+**`x-thrad-user-session-id`**
+
+```
+x-thrad-user-session-id: session-abc-456
+```
+
+The current session or chat thread ID.
+- Format: string, max 255 characters
+- Use case: group signals within a single conversation
+
+**`x-thrad-user-locale`**
+
+```
+x-thrad-user-locale: en-US
+```
+
+The end user's locale or language preference.
+- Format: BCP 47 language tag, max 35 characters
+- Examples: `en-US`, `fr-FR`, `zh-Hans-CN`
+
+**`x-thrad-grouping-id`**
+
+```
+x-thrad-grouping-id: campaign-summer-2024
+```
+
+An optional identifier for grouping signals by campaign, experiment, or custom segmentation.
+- Format: string, max 255 characters
+
+**`x-thrad-user-ip`**
+
+```
+x-thrad-user-ip: 192.168.1.1
+```
+
+The end user's IP address. Supports both IPv4 and IPv6 (max 45 characters).
+
+**`x-thrad-user-agent`**
+
+```
+x-thrad-user-agent: Mozilla/5.0 ...
+```
+
+The end user's browser or client user-agent string (max 1000 characters).
+
+## Application context headers
+
+**`x-thrad-llm-model`** *(required)*
+
+```
+x-thrad-llm-model: openai/gpt-4o
+```
+
+The LLM model used in your application (max 64 characters). Recommended identifiers:
+
+| Value | Model |
+|---|---|
+| `openai/gpt-4o` | OpenAI GPT-4o |
+| `anthropic/claude-sonnet-4-5` | Anthropic Claude Sonnet 4.5 |
+| `google/gemini-2-flash` | Google Gemini 2.0 Flash |
+
+## Privacy-safe PII headers
+
+For identity resolution across platforms you can pass hashed PII values.
+
+<Warning>
+  Never send raw email or phone numbers. Always hash with SHA-256 before sending.
+</Warning>
+
+**`x-thrad-user-email-sha256`**
+
+SHA-256 hash of the user's lowercase, trimmed email address.
+- Format: 64-character hexadecimal string
+- Preparation: `SHA256(email.toLowerCase().trim())`
+
+**`x-thrad-user-phone-sha256`**
+
+SHA-256 hash of the user's phone number in E.164 format.
+- Format: 64-character hexadecimal string
+- Preparation: `SHA256("+14155551234")`
+
+## Full header example
+
+```typescript
+const headers = {
+  // Required
+  "thrad-api-key": process.env.THRAD_API_KEY,
+  "Content-Type": "application/json",
+  "Accept": "application/json, text/event-stream",
+
+  // User context
+  "x-thrad-user-id": "user-12345",
+  "x-thrad-user-session-id": "session-abc-789",
+  "x-thrad-user-locale": "en-US",
+  "x-thrad-grouping-id": "campaign-summer-2024",
+  "x-thrad-user-ip": clientIp,
+  "x-thrad-user-agent": req.headers["user-agent"],
+
+  // Application context
+  "x-thrad-llm-model": "openai/gpt-4o",
+
+  // Privacy-safe PII (hashed)
+  "x-thrad-user-email-sha256": sha256(email.toLowerCase().trim()),
+  "x-thrad-user-phone-sha256": sha256(phone)
+};
+```
+
+### SHA-256 hashing helper
+
+```typescript
+import { createHash } from "crypto";
+
+function sha256(value: string): string {
+  return createHash("sha256").update(value).digest("hex");
+}
+
+const emailHash = sha256(email.toLowerCase().trim());
+const phoneHash = sha256("+14155551234"); // E.164 format
+```

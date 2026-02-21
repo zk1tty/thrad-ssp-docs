@@ -1,7 +1,80 @@
 ---
 title: "Setup"
-description: "Learn how to integrate real-time ad auctions into your chat applications using the Thrad SSP API."
+description: "Connect the Thrad MCP Signal Server to your AI agent"
 ---
 
-# Test
-test test test 
+This guide walks you through integrating the Thrad Signal Collection server into your AI agent.
+
+## Prerequisites
+
+- A Thrad API key — contact [contact@thrad.ai](mailto:contact@thrad.ai) for access
+- An AI agent that supports the [Model Context Protocol (MCP)](https://modelcontextprotocol.io)
+
+## Server URL
+
+```
+https://mcp.thrad.ai/v1
+```
+
+The server uses MCP over HTTP with Server-Sent Events (SSE) for streaming responses.
+
+## SDK integration
+
+### TypeScript / JavaScript
+
+Install the official MCP SDK:
+
+```bash
+npm install @modelcontextprotocol/sdk
+```
+
+Connect your agent to the Signal Collection server:
+
+```typescript
+import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
+
+const transport = new StreamableHTTPClientTransport(
+  new URL("https://mcp.thrad.ai/v1"),
+  {
+    requestInit: {
+      headers: {
+        "thrad-api-key": process.env.THRAD_API_KEY
+      }
+    }
+  }
+);
+
+const client = new Client({
+  name: "your-agent",
+  version: "1.0.0"
+});
+
+await client.connect(transport);
+
+// List available tools to pass to your LLM
+const { tools } = await client.listTools();
+console.log("Available tools:", tools);
+```
+
+See the [Headers Reference](/collect-signals/headers) for the full list of supported headers.
+
+## Connection lifecycle
+
+The MCP client maintains a persistent connection. For production use:
+
+- **One client per user session** — do not share clients across users
+- **Handle reconnection** — implement retry logic for network failures
+- **Close on session end** — call `client.close()` when the session ends
+
+```typescript
+// Graceful shutdown
+process.on("SIGTERM", async () => {
+  await client.close();
+  process.exit(0);
+});
+```
+
+<Warning>
+  Never share a single MCP client instance across multiple users. Each user session must have its own client to ensure signals are attributed correctly.
+</Warning>

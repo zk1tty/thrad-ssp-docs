@@ -1,0 +1,249 @@
+---
+title: "Testing"
+description: "Test and debug your Signal Collection integration"
+---
+
+This guide covers how to test your Signal Collection integration and troubleshoot common issues.
+
+## Manual testing with cURL
+
+The Thrad Signal Collection server uses the MCP JSON-RPC protocol. You can test it directly with cURL.
+
+### Test authentication
+
+Verify your API key is valid:
+
+```bash
+curl -X POST https://mcp.thrad.ai/v1 \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
+  -H "thrad-api-key: YOUR_API_KEY" \
+  -H "x-thrad-llm-model: openai/gpt-4o" \
+  -d '{
+    "jsonrpc": "2.0",
+    "method": "initialize",
+    "params": {
+      "protocolVersion": "2024-11-05",
+      "capabilities": {},
+      "clientInfo": {
+        "name": "test-client",
+        "version": "1.0.0"
+      }
+    },
+    "id": 1
+  }'
+```
+
+Expected: server capabilities and protocol version.
+
+```json
+{
+  "error": "Unauthorized"
+}
+```
+
+The above error response is returned when the API key is invalid or missing.
+
+### List available tools
+
+```bash
+curl -X POST https://mcp.thrad.ai/v1 \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
+  -H "thrad-api-key: YOUR_API_KEY" \
+  -H "x-thrad-llm-model: openai/gpt-4o" \
+  -d '{
+    "jsonrpc": "2.0",
+    "method": "tools/list",
+    "params": {},
+    "id": 2
+  }'
+```
+
+Expected: list of available tools including `broadcast_signal`.
+
+### Send a test signal
+
+```bash
+curl -X POST https://mcp.thrad.ai/v1 \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
+  -H "thrad-api-key: YOUR_API_KEY" \
+  -H "x-thrad-llm-model: openai/gpt-4o" \
+  -H "x-thrad-user-id: test-user-123" \
+  -H "x-thrad-user-session-id: test-session-456" \
+  -H "x-thrad-user-locale: en-US" \
+  -H "x-thrad-grouping-id: test-campaign" \
+  -d '{
+    "jsonrpc": "2.0",
+    "method": "tools/call",
+    "params": {
+      "name": "broadcast_signal",
+      "arguments": {
+        "signals": [{
+          "category": "interest",
+          "confidence": 0.85,
+          "subject": "test signal",
+          "sentiment": "positive"
+        }]
+      }
+    },
+    "id": 3
+  }'
+```
+
+Expected response:
+
+```json
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Signals broadcasted successfully"
+    }
+  ],
+  "structuredContent": {
+    "success": true
+  }
+}
+```
+
+## SDK testing
+
+### TypeScript test script
+
+```typescript
+import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
+
+async function testConnection() {
+  const transport = new StreamableHTTPClientTransport(
+    new URL("https://mcp.thrad.ai/v1"),
+    {
+      requestInit: {
+        headers: {
+          "thrad-api-key": process.env.THRAD_API_KEY!
+        }
+      }
+    }
+  );
+
+  const client = new Client({
+    name: "test-client",
+    version: "1.0.0"
+  });
+
+  try {
+    await client.connect(transport);
+    console.log("Connected successfully");
+
+    const { tools } = await client.listTools();
+    console.log("Available tools:", tools.map(t => t.name));
+
+    const result = await client.callTool({
+      name: "broadcast_signal",
+      arguments: {
+        signals: [{
+          category: "interest",
+          confidence: 0.85,
+          subject: "test signal"
+        }]
+      }
+    });
+    console.log("Signal result:", result);
+
+    await client.close();
+    console.log("Test completed successfully");
+  } catch (error) {
+    console.error("Test failed:", error);
+    process.exit(1);
+  }
+}
+
+testConnection();
+```
+
+Run the test:
+
+```bash
+THRAD_API_KEY=your-key npx tsx test-connection.ts
+```
+
+## Common issues
+
+| Issue | Cause | Solution |
+|---|---|---|
+| `401 Unauthorized` | Invalid or missing API key | Verify the key is correct; check the header is `thrad-api-key` with no extra whitespace |
+| Connection timeout | Network or firewall blocking | Verify you can reach `mcp.thrad.ai`; check HTTPS is allowed |
+| Invalid signal schema | Signal data doesn't match expected format | See schema requirements below |
+| Tool not found | Calling a non-existent tool | Use `tools/list` — Signal Collection only exposes `broadcast_signal` |
+
+### Invalid signal schema error
+
+```json
+{
+  "error": {
+    "code": -32602,
+    "message": "Invalid params: confidence must be between 0 and 1"
+  }
+}
+```
+
+Signal schema requirements:
+- `confidence` must be a number between `0.0` and `1.0`
+- `category` must be one of the [valid categories](/collect-signals/tools#signal-categories)
+- `subject` must be a non-empty string under 500 characters
+- `signals` array must contain 1–10 items
+
+## Debugging tips
+
+### Enable SDK logging
+
+```typescript
+const client = new Client(
+  { name: "your-agent", version: "1.0.0" },
+  { logger: console }
+);
+```
+
+### Log and redact headers
+
+```typescript
+const headers = {
+  "thrad-api-key": process.env.THRAD_API_KEY,
+  "x-thrad-user-id": userId,
+  "x-thrad-user-session-id": sessionId,
+  "x-thrad-user-locale": userLocale,
+  "x-thrad-grouping-id": groupingId
+};
+
+console.log("Request headers:", {
+  ...headers,
+  "thrad-api-key": headers["thrad-api-key"] ? "[REDACTED]" : "MISSING"
+});
+```
+
+### Validate signals before sending
+
+```typescript
+function validateSignal(signal: unknown): boolean {
+  if (typeof signal !== "object" || signal === null) return false;
+
+  const s = signal as Record<string, unknown>;
+
+  if (typeof s.category !== "string") return false;
+  if (typeof s.confidence !== "number" || s.confidence < 0 || s.confidence > 1) return false;
+  if (typeof s.subject !== "string" || s.subject.length === 0 || s.subject.length > 500) return false;
+
+  const validCategories = [
+    "interest", "evaluation", "problem", "purchase_intent",
+    "price_sensitivity", "brand_affinity", "user_context",
+    "business_context", "recommendation_request"
+  ];
+  if (!validCategories.includes(s.category)) return false;
+
+  return true;
+}
+```
+
+Contact [contact@thrad.ai](mailto:contact@thrad.ai) to verify that signals are being received correctly on the platform side.

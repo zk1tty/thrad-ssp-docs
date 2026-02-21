@@ -1,4 +1,64 @@
 ---
 title: "Overview"
-description: "Collect signals"
+description: "Learn user preferences to deliver more relevant, personalized offers"
 ---
+
+<Tip>Signal Collection is optional but **highly recommended**. Enabling Signal Collection significantly improves ad relevance and personalization/monetization over time.</Tip>
+
+## Why use Signal Collection?
+
+| | Without Signal Collection | With Signal Collection |
+|---|---|---|
+| **Ad matching** | Based only on the current query | Uses accumulated user context and preferences |
+| **Personalization** | Limited | Highly personalized recommendations |
+| **Learning** | No history | Continuously improves over time |
+
+## How it works
+
+<Steps>
+  <Step title="Connect your agent">
+    Your AI agent connects to the Thrad Signal Collection server via MCP.
+  </Step>
+  <Step title="Tool is exposed">
+    The server exposes the `broadcast_signal` tool to your LLM automatically.
+  </Step>
+  <Step title="Signals are collected silently">
+    The LLM calls `broadcast_signal` when it detects commercial intent in the conversation — no visible output is generated.
+  </Step>
+  <Step title="User profile is built">
+    Signals are stored and aggregated per user to build a preference profile.
+  </Step>
+  <Step title="Better ads are served">
+    When you make a bid request, Thrad uses the accumulated signals to return more relevant ads.
+  </Step>
+</Steps>
+
+## Key features
+
+- **Silent collection** — Signals are collected without interrupting the conversation flow
+- **Automatic extraction** — The LLM decides when to extract signals based on context
+- **Flexible attribution** — Configure user context via request headers
+- **Privacy-first** — No cookies; any PII must be hashed before sending
+- **MCP standard** — Uses the Model Context Protocol for seamless integration
+
+## Signal categories
+
+The `broadcast_signal` tool can extract the following types of commercial intent:
+
+| Category | Description | Example |
+|---|---|---|
+| `interest` | General interest in a product or topic | "I've been thinking about getting a new laptop" |
+| `evaluation` | Actively comparing options | "How does React compare to Vue?" |
+| `problem` | Has a problem needing a solution | "My current database is too slow" |
+| `purchase_intent` | Active intent to buy | "I want to buy running shoes" |
+| `price_sensitivity` | Budget indicators | "Looking for something under $500" |
+| `brand_affinity` | Brand preferences | "I prefer Apple products" |
+| `user_context` | Personal context | "As a student…" |
+| `business_context` | Professional context | "For our enterprise team…" |
+| `recommendation_request` | Asking for recommendations | "What CI/CD tool do you recommend?" |
+
+## Next steps
+
+<Card title="Setup" icon="plug" href="/collect-signals/setup">
+  Connect the Thrad Signal Collection server to your AI agent
+</Card>

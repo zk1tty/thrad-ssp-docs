@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Thrads API Documentation",
+  "name": "Thrad API Documentation",
   "colors": {
     "primary": "#FF6B35",
     "light": "#FF8C5A",
@@ -22,7 +22,7 @@
             "group": "Get Started",
             "pages": [
               "introduction/introduction",
-              "introduction/what-is-thrads",
+              "introduction/what-is-thrad",
               "introduction/quickstart"
             ],
             "icon": "rocket"
@@ -31,7 +31,10 @@
             "group": "Step 1: Collect Signals",
             "pages": [
               "collect-signals/overview",
-              "collect-signals/setup"
+              "collect-signals/setup",
+              "collect-signals/headers",
+              "collect-signals/tools",
+              "collect-signals/testing"
             ],
             "icon": "signal"
           },
@@ -70,14 +73,14 @@
     "primary": {
       "type": "button",
       "label": "Platform",
-      "href": "https://platform.thrads.ai"
+      "href": "https://platform.thrad.ai"
     }
   },
   "footer": {
     "socials": {
       "x": "https://x.com/Thrad_ai",
-      "github": "https://github.com/Thrads",
-      "linkedin": "https://www.linkedin.com/company/thrads"
+      "github": "https://github.com/thrad",
+      "linkedin": "https://www.linkedin.com/company/thrad"
     }
   }
 }
