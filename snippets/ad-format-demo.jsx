@@ -91,19 +91,13 @@ export const AdFormatDemo = () => {
           </p>
         </div>
       ) : format === 'Appended' ? (
-        <>
-          <div style={{ color: C.text2, lineHeight: '1.75' }}>
-            <p style={{ margin: '0 0 8px 0' }}>Authentication has a lot of edge cases — sign up, sign in, password reset, session management, and secure token storage.</p>
-            <p style={{ margin: 0 }}>Popular choices: Auth.js, Clerk, and Supabase Auth — all have great React integrations.</p>
-          </div>
-          <div style={{ borderLeft: `2px solid ${C.orangeBorder}`, paddingLeft: '12px' }}>
-            <span style={{ color: C.orange, fontSize: '10px', fontWeight: 700, fontFamily: 'sans-serif', letterSpacing: '0.05em' }}>SPONSORED · {ad.advertiser}</span>
-            <p style={{ margin: '3px 0 0', color: C.text3, fontSize: '12px', fontFamily: 'sans-serif', lineHeight: '1.5' }}>
-              {ad.headline} {ad.description}{' '}
-              <HoverLink style={{ textDecoration: 'none' }}>→ {ad.cta}</HoverLink>
-            </p>
-          </div>
-        </>
+        <div style={{ color: C.text2, lineHeight: '1.75' }}>
+          <p style={{ margin: '0 0 8px 0' }}>Authentication has a lot of edge cases — sign up, sign in, password reset, session management, and secure token storage.</p>
+          <p style={{ margin: '0 0 8px 0' }}>Popular choices: Auth.js, Clerk, and Supabase Auth — all have great React integrations.</p>
+          <p style={{ margin: '8px 0 0' }}>
+            You might also want to check out <HoverLink style={{ textDecoration: 'none', fontWeight: 500 }}>{ad.advertiser}</HoverLink> — {ad.headline} {ad.description}
+          </p>
+        </div>
       ) : (
         <div style={{ color: C.text2, lineHeight: '1.75' }}>
           <p style={{ margin: '0 0 8px 0' }}>Authentication has a lot of edge cases — sign up, sign in, password reset, session management, and secure token storage.</p>
@@ -133,16 +127,11 @@ export const AdFormatDemo = () => {
             {' '}has guided meditations built specifically for work stress.
           </div>
         ) : format === 'Appended' ? (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxWidth: '80%' }}>
-            <div style={{ backgroundColor: C.bg2, borderRadius: '4px 14px 14px 14px', padding: '10px 14px', color: C.text2, fontSize: '13px', fontFamily: 'sans-serif', lineHeight: '1.65' }}>
-              That sounds really exhausting. Corporate stress can wear you down fast. Setting boundaries and small daily resets — even 5 minutes — can make a real difference over time.
-            </div>
-            <div style={{ border: `1px solid ${C.border}`, borderRadius: '10px', backgroundColor: C.bg2, padding: '8px 12px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-              <Badge />
-              <span style={{ color: C.text1, fontWeight: 500, fontSize: '12px', fontFamily: 'sans-serif' }}>{chatAd.advertiser} · {chatAd.headline}</span>
-              <p style={{ margin: 0, fontSize: '11px', color: C.text3, fontFamily: 'sans-serif', lineHeight: '1.45' }}>{chatAd.description}</p>
-              <HoverLink style={{ fontSize: '11px', fontFamily: 'sans-serif', textDecoration: 'none' }}>→ {chatAd.cta}</HoverLink>
-            </div>
+          <div style={{ backgroundColor: C.bg2, borderRadius: '4px 14px 14px 14px', padding: '10px 14px', maxWidth: '80%', color: C.text2, fontSize: '13px', fontFamily: 'sans-serif', lineHeight: '1.65', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            <p style={{ margin: 0 }}>That sounds really exhausting. Corporate stress can wear you down fast. Setting boundaries and small daily resets — even 5 minutes — can make a real difference over time.</p>
+            <p style={{ margin: 0 }}>
+              You might also want to check out <HoverLink style={{ fontFamily: 'sans-serif', textDecoration: 'none', fontWeight: 500 }}>{chatAd.advertiser}</HoverLink> — {chatAd.headline} {chatAd.description}
+            </p>
           </div>
         ) : (
           <div style={{ backgroundColor: C.bg2, borderRadius: '4px 14px 14px 14px', padding: '10px 14px', maxWidth: '80%', color: C.text2, fontSize: '13px', fontFamily: 'sans-serif', lineHeight: '1.65' }}>
@@ -243,12 +232,7 @@ export const AdFormatDemo = () => {
               <>
                 <p style={{ margin: 0 }}>Authentication is tricky — lots of edge cases. Popular choices: Auth.js, Clerk, and Supabase Auth.</p>
                 <p style={{ margin: 0, color: C.text3 }}>Should I show you how to set up protected routes?</p>
-                <div style={{ border: `1px solid ${C.border}`, borderRadius: '8px', backgroundColor: C.bg2, padding: '8px 10px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                  <Badge />
-                  <span style={{ color: C.orange, fontWeight: 500, fontSize: '12px' }}>{ad.advertiser} · {ad.headline}</span>
-                  <p style={{ margin: 0, fontSize: '11px', color: C.text3, lineHeight: '1.4' }}>{ad.description}</p>
-                  <HoverLink style={{ fontSize: '11px', textDecoration: 'none' }}>→ {ad.cta}</HoverLink>
-                </div>
+                <p style={{ margin: 0 }}>You might also want to check out <HoverLink style={{ textDecoration: 'none', fontWeight: 500 }}>{ad.advertiser}</HoverLink> — {ad.headline} {ad.description}</p>
               </>
             ) : format === 'Card' ? (
               <>
