@@ -1,0 +1,53 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Thrad Pre-Launch",
+  "colors": {
+    "primary": "#FF6B35",
+    "light": "#FF8C5A",
+    "dark": "#E55A2B"
+  },
+  "favicon": "/favicon.svg",
+  "logo": {
+    "light": "/favicon.svg",
+    "dark": "/favicon.svg"
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Docs",
+        "icon": "book-open",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction/introduction"
+            ],
+            "icon": "rocket"
+          },
+          {
+            "group": "Ad Formats",
+            "pages": [
+              "ad-formats/sponsored-prompt"
+            ],
+            "icon": "rectangle-ad"
+          }
+        ]
+      }
+    ]
+  },
+  "navbar": {
+    "primary": {
+      "type": "button",
+      "label": "Platform",
+      "href": "https://platform.thrad.ai"
+    }
+  },
+  "footer": {
+    "socials": {
+      "x": "https://x.com/Thrad_ai",
+      "github": "https://github.com/thrad",
+      "linkedin": "https://www.linkedin.com/company/thrad"
+    }
+  }
+}
