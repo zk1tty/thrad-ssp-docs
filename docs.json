@@ -48,7 +48,8 @@
           {
             "group": "Step 3: Serve Ads",
             "pages": [
-              "serve-ads/ad-formats"
+              "serve-ads/ad-formats",
+              "serve-ads/sponsored-prompt"
             ],
             "icon": "arrow-right"
           }
