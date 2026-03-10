@@ -97,18 +97,6 @@ The SSP returns 3–5 sponsored prompts to display as suggestions.
 
 ---
 
-## Tracking
-
-Fire these three events at the appropriate moments:
-
-| Event | When | How |
-|-------|------|-----|
-| **Impression** | Prompt is displayed to the user | Call the view URL provided in the bid |
-| **Prompt click** | User clicks the sponsored prompt | `POST` to `sponsored_prompt_click_url` |
-| **CTA click** | User clicks the CTA button | User navigates to `url` (redirect handled server-side) |
-
----
-
 ## No Bid
 
 If no sponsored prompts are available, the response returns an empty bids array. Fall back to your default organic suggestions.
