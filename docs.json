@@ -19,24 +19,18 @@
         "icon": "book-open",
         "groups": [
           {
-            "group": "Serve Ads",
+            "group": "Get Started",
             "pages": [
-              "serve-ads/sponsored-prompt"
+              "introduction/quickstart"
             ],
-            "icon": "arrow-right"
-          }
-        ]
-      },
-      {
-        "tab": "API reference",
-        "icon": "terminal",
-        "groups": [
+            "icon": "rocket"
+          },
           {
-            "group": "API reference",
+            "group": "Render Ads",
             "pages": [
-              "api-reference/bid-request",
-              "api-reference/dsp-endpoints"
-            ]
+              "render-ads/sponsored-prompt"
+            ],
+            "icon": "print"
           }
         ]
       }
