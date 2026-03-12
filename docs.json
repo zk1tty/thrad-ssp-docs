@@ -21,50 +21,16 @@
           {
             "group": "Get Started",
             "pages": [
-              "introduction/introduction",
-              "introduction/what-is-thrad",
               "introduction/quickstart"
             ],
             "icon": "rocket"
           },
           {
-            "group": "Step 1: Collect Signals",
+            "group": "Render Ads",
             "pages": [
-              "collect-signals/overview",
-              "collect-signals/setup",
-              "collect-signals/headers",
-              "collect-signals/tools",
-              "collect-signals/testing"
+              "render-ads/sponsored-prompt"
             ],
-            "icon": "signal"
-          },
-          {
-            "group": "Step 2: Bid Request",
-            "pages": [
-              "bid-request/bid-request"
-            ],
-            "icon": "gavel"
-          },
-          {
-            "group": "Step 3: Serve Ads",
-            "pages": [
-              "serve-ads/ad-formats",
-              "serve-ads/sponsored-prompt"
-            ],
-            "icon": "arrow-right"
-          }
-        ]
-      },
-      {
-        "tab": "API reference",
-        "icon": "terminal",
-        "groups": [
-          {
-            "group": "API reference",
-            "pages": [
-              "api-reference/bid-request",
-              "api-reference/dsp-endpoints"
-            ]
+            "icon": "print"
           }
         ]
       }
