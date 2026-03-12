@@ -9,13 +9,6 @@ When a user clicks it, the chatbot responds normally with a brand message append
 
 <img src="/assets/sponsored-prompt-opener.png" style={{ width: '50%' }} />
 
-When the user clicks the sponsored prompt:
-
-1. Send the prompt text as the user's message to the LLM
-2. Append the brand's `append_message` and CTA below the LLM response
-
-<img src="/assets/sponsored-prompt-ad-render.png" style={{ width: '50%' }} />
-
 ---
 
 ## Request
@@ -39,7 +32,7 @@ Call the SSP with `ad_format` set to `"sponsored_prompt"`. No conversation messa
 
 ## Response
 
-The SSP returns 3–5 sponsored prompts to display as suggestions.
+The SSP returns sponsored prompt to display as suggestions.
 
 ```json
 {
@@ -55,7 +48,7 @@ The SSP returns 3–5 sponsored prompts to display as suggestions.
         "sponsored_prompt": "What are the best running shoes for marathons?",
         "append_message": "Check out the Nike Air Zoom Alphafly — the marathon record-holder's shoe.",
         "cta_text": "Shop Now",
-        "cta_url": "https://ssp.thrads.ai/api/v1/tracking/redirect?token=...",
+        "url": "https://ssp.thrads.ai/api/v1/tracking/redirect?token=...",
         "view_url": "https://localhost:8000/api/v1/tracking/view?token=...",
         "sponsored_prompt_click_url": "https://events.thrad.ai/api/v1/tracking/sponsored-prompt-click?token=...",
         "placement": "sponsored_prompt"
@@ -70,12 +63,11 @@ The SSP returns 3–5 sponsored prompts to display as suggestions.
 | `sponsored_prompt` | Text to display as the suggested prompt |
 | `append_message` | Brand message to append after the LLM response |
 | `cta_text` | Label for the CTA button |
-| `cta_url` | CTA button destination (tracking redirect) |
+| `url` | CTA button destination (tracking redirect) |  // "Sponsored by Nike" is URL.
 | `logo_url` | Brand logo to display in the sponsored card |
 | `image_url` | Product image (optional display) |
 | `view_url` | Fire when the sponsored prompt becomes visible to the user |
 | `sponsored_prompt_click_url` | Fire when the user taps the sponsored prompt text |
-| `sponsored_prompt_ad_click_url` | Fire when the user taps the CTA button |
 
 ---
 
@@ -103,7 +95,7 @@ Fire each URL as a GET request — no body needed.
 |-----|-------------|
 | `view_url` | Prompt card becomes visible on screen |
 | `sponsored_prompt_click_url` | User taps the prompt text |
-| `sponsored_prompt_ad_click_url` | User taps the CTA button |
+| `cta_url` | User taps the CTA button |
 
 ```swift iOS (Swift)
 // Minimal tracking helper — fire and forget

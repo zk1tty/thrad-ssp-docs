@@ -90,12 +90,16 @@ You'll get back a response with a `bids` array:
   "data": {
     "bids": [
       {
-        "bidId": "72d9bc37-ca03-4cc7-bce2-b7af0b6c0df9",
-        "advertiser": "Anthropic",
-        "sponsored_prompt": "What AI tools are best for developers?",
-        "append_message": "Try Claude by Anthropic.",
-        "cta_text": "Get Started",
-        "url": "https://ssp.thrads.ai/...",
+        "bidId": "sp_bid_abc123",
+        "advertiser": "Nike",
+        "logo_url": "https://cdn.example.com/nike-logo.png",
+        "image_url": "https://cdn.example.com/nike-shoes.jpg",
+        "sponsored_prompt": "What are the best running shoes for marathons?",
+        "append_message": "Check out the Nike Air Zoom Alphafly — the marathon record-holder's shoe.",
+        "cta_text": "Shop Now",
+        "url": "https://ssp.thrads.ai/api/v1/tracking/redirect?token=...",
+        "view_url": "https://localhost:8000/api/v1/tracking/view?token=...",
+        "sponsored_prompt_click_url": "https://events.thrad.ai/api/v1/tracking/sponsored-prompt-click?token=...",
         "placement": "sponsored_prompt"
       }
     ]
